@@ -3,6 +3,9 @@ import { HomeIcon, DocumentDuplicateIcon } from '@heroicons/react/24/outline';
 const links = [
     { name: 'Home', href: '/dashboard', icon: HomeIcon },
     { name: 'Invoices', href: '/dashboard/invoices', icon: DocumentDuplicateIcon },
+    { name: 'Stores', href: '/dashboard/stores', icon: HomeIcon },
+    { name: 'Chains', href: '/dashboard/chains', icon: HomeIcon },
+    { name: 'Cities', href: '/dashboard/cities', icon: HomeIcon },
 ];
 
 export default function NavLinks() {
