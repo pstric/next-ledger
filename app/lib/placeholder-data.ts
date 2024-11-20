@@ -40,3 +40,5 @@ const stores = [
         address: 'Nørretorv 2',
     },
 ];
+
+export { cities, chains, stores };
