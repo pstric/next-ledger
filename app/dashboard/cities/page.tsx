@@ -1,3 +1,5 @@
+import { EyeIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
 import { lusitana } from "@/app/ui/fonts";
 import { fetchCities } from "@/app/lib/data";
 
@@ -14,9 +16,9 @@ export default function Page() {
                     <tr>
                         <th>Zip</th>
                         <th>Name</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
+                        <th>View</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -24,9 +26,9 @@ export default function Page() {
                         <tr key={city.id} className="w-full">
                             <td>{city.zip}</td>
                             <td>{city.name}</td>
-                            <td>View</td>
-                            <td>Edit</td>
-                            <td>Delete</td>
+                            <td><Link href="/dashboard/cities"><EyeIcon className="w-5" /></Link></td>
+                            <td><Link href="/dashboard/cities"><PencilIcon className="w-5" /></Link></td>
+                            <td><Link href="/dashboard/cities"><TrashIcon className="w-5" /></Link></td>
                         </tr>
                     ))}
                 </tbody>
