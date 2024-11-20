@@ -26,7 +26,7 @@ export default function Page() {
                         <tr key={city.id} className="w-full">
                             <td>{city.zip}</td>
                             <td>{city.name}</td>
-                            <td><Link href="/dashboard/cities"><EyeIcon className="w-5" /></Link></td>
+                            <td><Link href={`/dashboard/cities/${city.id}/view`}><EyeIcon className="w-5" /></Link></td>
                             <td><Link href="/dashboard/cities"><PencilIcon className="w-5" /></Link></td>
                             <td><Link href="/dashboard/cities"><TrashIcon className="w-5" /></Link></td>
                         </tr>
