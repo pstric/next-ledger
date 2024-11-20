@@ -41,3 +41,7 @@ export function fetchInvoiceById(id: string) {
 export function fetchCities() {
     return cities;
 }
+
+export function fetchCityById(id: string) {
+    return cities.find(city => city.id === id);
+}
