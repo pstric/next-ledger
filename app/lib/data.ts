@@ -45,3 +45,7 @@ export function fetchCities() {
 export function fetchCityById(id: string) {
     return cities.find(city => city.id === id);
 }
+
+export async function fetchCitiesPages(query: string) {
+    return 1;
+}

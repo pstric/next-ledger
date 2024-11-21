@@ -1,10 +1,21 @@
 import { lusitana } from "@/app/ui/fonts";
-import { fetchCities } from "@/app/lib/data";
-import ViewCity from "@/app/ui/cities/buttons/view";
-import EditCity from "@/app/ui/cities/buttons/edit";
-import { DeleteCity } from "@/app/ui/cities/buttons/delete";
+import { fetchCities, fetchCitiesPages } from "@/app/lib/data";
+import Search from "@/app/ui/search";
+import { CreateCity } from "@/app/ui/cities/buttons/create";
+import CitiesTable from "@/app/ui/cities/table";
 
-export default function Page() {
+export default async function Page(props: {
+    searchParams?: Promise<{
+        query?: string;
+        page?: string;
+    }>;
+}) {
+    const searchParams = await props.searchParams;
+    const query = searchParams?.query || '';
+    const currentPage = Number(searchParams?.page) || 1;
+
+    const totalPages = fetchCitiesPages(query);
+
     const cities = fetchCities();
 
     return (
@@ -12,28 +23,11 @@ export default function Page() {
             <div className="flex w-full items-center justify-between">
                 <h1 className={`${lusitana.className} text-2xl`}>Cities</h1>
             </div>
-            <table className="table min-w-full">
-                <thead className="text-left">
-                    <tr>
-                        <th>Zip</th>
-                        <th>Name</th>
-                        <th>View</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {cities?.map((city) => (
-                        <tr key={city.id} className="w-full">
-                            <td>{city.zip}</td>
-                            <td>{city.name}</td>
-                            <td><ViewCity id={city.id} /></td>
-                            <td><EditCity id={city.id} /></td>
-                            <td><DeleteCity id={city.id} /></td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+            <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
+                <Search placeholder="Search cities..." />
+                <CreateCity />
+            </div>
+            <CitiesTable query={query} currentPage={currentPage} />
         </div>
     );
 }
