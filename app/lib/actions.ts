@@ -1,3 +1,5 @@
+'use server';
+
 export async function deleteCity(id: string) {
     throw new Error('Failed to Delete City.');
     
