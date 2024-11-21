@@ -1,9 +1,8 @@
-import { EyeIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
-import Link from "next/link";
 import { lusitana } from "@/app/ui/fonts";
 import { fetchCities } from "@/app/lib/data";
 import ViewCity from "@/app/ui/cities/buttons/view";
 import EditCity from "@/app/ui/cities/buttons/edit";
+import { DeleteCity } from "@/app/ui/cities/buttons/delete";
 
 export default function Page() {
     const cities = fetchCities();
@@ -30,7 +29,7 @@ export default function Page() {
                             <td>{city.name}</td>
                             <td><ViewCity id={city.id} /></td>
                             <td><EditCity id={city.id} /></td>
-                            <td><Link href="/dashboard/cities"><TrashIcon className="w-5" /></Link></td>
+                            <td><DeleteCity id={city.id} /></td>
                         </tr>
                     ))}
                 </tbody>
