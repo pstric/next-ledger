@@ -1,7 +1,11 @@
-import { fetchCityById } from "@/app/lib/data";
+/* import { fetchCityById } from "@/app/lib/data";
 import { lusitana } from "@/app/ui/fonts";
+ */
+export default function Page() {
+    return <p>Edit City</p>;
+}
 
-export default async function Page(props: { params: Promise<{ id: string }>}) {
+/* export default async function Page(props: { params: Promise<{ id: string }>}) {
     const params = await props.params;
     const id = params.id;
     const city = fetchCityById(id);
@@ -33,4 +37,4 @@ export default async function Page(props: { params: Promise<{ id: string }>}) {
             </div>
         </div>
     );
-}
+} */
