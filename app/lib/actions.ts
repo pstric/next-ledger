@@ -1,6 +1,17 @@
 'use server';
 
+export type CityState = {
+    errors?: {
+        zip?: string[];
+        name?: string[];
+    };
+    message?: string | null;
+};
+
 export async function deleteCity(id: string) {
+    if (id != null) {
+        throw new Error('Failed to Delete City.');
+    }
     throw new Error('Failed to Delete City.');
     
 /*     try {

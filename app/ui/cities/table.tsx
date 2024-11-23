@@ -10,6 +10,9 @@ export default async function CitiesTable({
     query: string;
     currentPage: number;
   }) {
+    if (query == null && currentPage == null) {
+        console.log('');
+    }
     const cities = fetchCities();
 
     return (

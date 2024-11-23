@@ -27,7 +27,7 @@ export function fetchAllInvoices() {
 export function fetchInvoiceById(id: string) {
     console.log(id);
     const invoices = fetchAllInvoices();
-    var result = invoices[0];
+    let result = invoices[0];
     invoices.forEach((invoice) => {
         if (invoice.id === id) {
             console.log('found');
@@ -47,5 +47,8 @@ export function fetchCityById(id: string) {
 }
 
 export async function fetchCitiesPages(query: string) {
+    if (query != null) {
+        return 1;
+    }
     return 1;
 }
