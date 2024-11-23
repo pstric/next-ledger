@@ -2,7 +2,7 @@
 import { lusitana } from "@/app/ui/fonts";
  */
 export default function Page() {
-    return <p>Edit City</p>;
+    return (<p>Edit City</p>);
 }
 
 /* export default async function Page(props: { params: Promise<{ id: string }>}) {
