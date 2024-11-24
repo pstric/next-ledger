@@ -180,8 +180,8 @@ export async function GET() {
   try {
     await client.sql`BEGIN`;
     // await seedCities();
-    await seedChains();
-    // await seedStores();
+    // await seedChains();
+    await seedStores();
     await client.sql`COMMIT`;
 
     return Response.json({ message: 'Database seeded successfully' });
