@@ -4,7 +4,7 @@ import Link from "next/link";
 export default function EditCity({ id }: { id: string }) {
     return (
         <Link
-            href={`/dashboard/cities/${id}/view`}
+            href={`/dashboard/cities/${id}/edit`}
             className="rounded-md border p-2 hover:bg-gray-100"
         >
             <PencilIcon className="w-5" />
