@@ -133,7 +133,7 @@ async function seedChains() {
     CREATE TABLE IF NOT EXISTS chains (
       id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
       name VARCHAR(255) NOT NULL
-    ),
+    );
   `;
 
   const insertedChains = await Promise.all(
@@ -156,7 +156,7 @@ async function seedStores() {
     CREATE TABLE IF NOT EXISTS stores (
       id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
       address VARCHAR(255) NOT NULL
-    ),
+    );
   `;
 
   const insertedStores = await Promise.all(
