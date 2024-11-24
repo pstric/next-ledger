@@ -1,9 +1,9 @@
 // import bcrypt from 'bcrypt';
-import { db } from '@vercel/postgres';
+// import { db } from '@vercel/postgres';
 // import { invoices, customers, revenue, users } from '../lib/placeholder-data';
-import { cities, chains, stores } from '../lib/placeholder-data';
+// import { cities, chains, stores } from '../lib/placeholder-data';
 
-const client = await db.connect();
+// const client = await db.connect();
 
 // async function seedUsers() {
 //   await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
@@ -102,91 +102,91 @@ const client = await db.connect();
 //   return insertedRevenue;
 // }
 
-async function seedCities() {
-  await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+// async function seedCities() {
+//   await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
 
-  await client.sql`
-    CREATE TABLE IF NOT EXISTS cities (
-      id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-      zip VARCHAR(255) NOT NULL,
-      name VARCHAR(255) NOT NULL
-    );
-  `;
+//   await client.sql`
+//     CREATE TABLE IF NOT EXISTS cities (
+//       id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+//       zip VARCHAR(255) NOT NULL,
+//       name VARCHAR(255) NOT NULL
+//     );
+//   `;
 
-  const insertedCities = await Promise.all(
-    cities.map(
-      (city) => client.sql`
-        INSERT INTO cities (id, zip, name)
-        VALUES (${city.id}, ${city.zip}, ${city.name})
-        ON CONFLICT (id) DO NOTHING;
-      `,
-    ),
-  );
+//   const insertedCities = await Promise.all(
+//     cities.map(
+//       (city) => client.sql`
+//         INSERT INTO cities (id, zip, name)
+//         VALUES (${city.id}, ${city.zip}, ${city.name})
+//         ON CONFLICT (id) DO NOTHING;
+//       `,
+//     ),
+//   );
 
-  return insertedCities;
-}
+//   return insertedCities;
+// }
 
-async function seedChains() {
-  await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+// async function seedChains() {
+//   await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
 
-  await client.sql`
-    CREATE TABLE IF NOT EXISTS chains (
-      id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-      name VARCHAR(255) NOT NULL
-    );
-  `;
+//   await client.sql`
+//     CREATE TABLE IF NOT EXISTS chains (
+//       id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+//       name VARCHAR(255) NOT NULL
+//     );
+//   `;
 
-  const insertedChains = await Promise.all(
-    chains.map(
-      (chain) => client.sql`
-        INSERT INTO chains (id, name)
-        VALUES (${chain.id}, ${chain.name})
-        ON CONFLICT (id) DO NOTHING;
-      `,
-    ),
-  );
+//   const insertedChains = await Promise.all(
+//     chains.map(
+//       (chain) => client.sql`
+//         INSERT INTO chains (id, name)
+//         VALUES (${chain.id}, ${chain.name})
+//         ON CONFLICT (id) DO NOTHING;
+//       `,
+//     ),
+//   );
 
-  return insertedChains;
-}
+//   return insertedChains;
+// }
 
-async function seedStores() {
-  await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+// async function seedStores() {
+//   await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
 
-  await client.sql`
-    CREATE TABLE IF NOT EXISTS stores (
-      id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-      address VARCHAR(255) NOT NULL
-    );
-  `;
+//   await client.sql`
+//     CREATE TABLE IF NOT EXISTS stores (
+//       id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+//       address VARCHAR(255) NOT NULL
+//     );
+//   `;
 
-  const insertedStores = await Promise.all(
-    stores.map(
-      (store) => client.sql`
-        INSERT INTO stores (id, address)
-        VALUES (${store.id}, ${store.address})
-        ON CONFLICT (id) DO NOTHING;
-      `,
-    ),
-  );
+//   const insertedStores = await Promise.all(
+//     stores.map(
+//       (store) => client.sql`
+//         INSERT INTO stores (id, address)
+//         VALUES (${store.id}, ${store.address})
+//         ON CONFLICT (id) DO NOTHING;
+//       `,
+//     ),
+//   );
 
-  return insertedStores;
-}
+//   return insertedStores;
+// }
 
 export async function GET() {
-  // return Response.json({
-  //   message:
-  //     'Uncomment this file and remove this line. You can delete this file when you are finished.',
-  // });
-  try {
-    await client.sql`BEGIN`;
-    // await seedCities();
-    // await seedChains();
-    await seedStores();
-    await client.sql`COMMIT`;
+  return Response.json({
+    message:
+      'Uncomment this file and remove this line. You can delete this file when you are finished.',
+  });
+  // try {
+  //   await client.sql`BEGIN`;
+  //   await seedCities();
+  //   await seedChains();
+  //   await seedStores();
+  //   await client.sql`COMMIT`;
 
-    return Response.json({ message: 'Database seeded successfully' });
-  } catch (error) {
-    await client.sql`ROLLBACK`;
-    return Response.json({ error }, { status: 500 });
-  }
+  //   return Response.json({ message: 'Database seeded successfully' });
+  // } catch (error) {
+  //   await client.sql`ROLLBACK`;
+  //   return Response.json({ error }, { status: 500 });
+  // }
 }
