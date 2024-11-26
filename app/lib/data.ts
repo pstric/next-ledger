@@ -1,4 +1,5 @@
-import { cities } from "./placeholder-data";
+import { sql } from "@vercel/postgres";
+import { City } from "./definitions";
 
 export function fetchAllInvoices() {
     const invoices = [
@@ -38,17 +39,78 @@ export function fetchInvoiceById(id: string) {
     return result;
 }
 
-export function fetchCities() {
-    return cities;
-}
+const ITEMS_PER_PAGE = 6;
 
-export function fetchCityById(id: string) {
-    return cities.find(city => city.id === id);
+export async function fetchFilteredCities(
+    query: string,
+    currentPage: number,
+) {
+    const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+    
+    try {
+        const cities = await sql<City>`
+            SELECT
+                cities.id,
+                cities.zip,
+                cities.name
+            FROM
+                cities
+            WHERE
+                cities.zip ILIKE ${`%${query}%`} OR
+                cities.name ILIKE ${`%${query}%`}
+            ORDER BY cities.zip ASC
+            LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+        `;
+
+        return cities.rows;
+    } catch (error) {
+        console.error('Database Error:', error);
+        throw new Error('Failed to fetch cities.');
+    }
 }
 
 export async function fetchCitiesPages(query: string) {
-    if (query != null) {
-        return 1;
+    try {
+        const count = await sql`
+            SELECT
+                COUNT(*)
+            FROM
+                cities
+            WHERE
+                cities.zip ILIKE ${`%${query}%`} OR
+                cities.name ILIKE ${`%${query}%`}
+        `;
+
+        const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
+        return totalPages;
+    } catch (error) {
+        console.error('Database Error:', error);
+        throw new Error('Failed to fetch total number of cities.');
     }
-    return 1;
+}
+
+export async function fetchCityById(id: string) {
+    try {
+        const data = await sql<City>`
+            SELECT
+                cities.id,
+                cities.zip,
+                cities.name
+            FROM
+                cities
+            WHERE
+                cities.id = ${id}
+            ORDER BY
+                cities.zip ASC;
+        `;
+
+        const city = data.rows.map((city) => ({
+            ...city,
+        }));
+
+        return city[0];
+    } catch (error) {
+        console.error('Database Error:', error);
+        throw new Error('Failed to fetch city.');
+    }
 }
