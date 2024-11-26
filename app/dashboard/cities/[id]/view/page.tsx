@@ -4,7 +4,7 @@ import { lusitana } from "@/app/ui/fonts";
 export default async function Page(props: { params: Promise<{ id: string }>}) {
     const params = await props.params;
     const id = params.id;
-    const city = fetchCityById(id);
+    const city = await fetchCityById(id);
 
     if (!city) {
         return null;
