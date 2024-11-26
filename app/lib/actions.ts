@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
-const FormSchema = z.object({
+const CityFormSchema = z.object({
     id: z.string(),
     zip: z.string().length(4).transform((val) => {
         return parseInt(val, 10);
@@ -16,7 +16,7 @@ const FormSchema = z.object({
     name: z.string(),
 });
 
-const CreateCity = FormSchema.omit({ id: true, });
+const CreateCity = CityFormSchema.omit({ id: true, });
 
 export type CityState = {
     errors?: {
@@ -102,4 +102,94 @@ export async function deleteCity(id: string) {
         };
     }
     revalidatePath('/dashboard/cities');
+}
+
+const ChainFormSchema = z.object({
+    id: z.string(),
+    name: z.string(),
+});
+
+const CreateChain = ChainFormSchema.omit({ id: true, });
+
+export type ChainState = {
+    errors?: {
+        name?: string[];
+    };
+    message?: string | null;
+};
+
+export async function createChain(prevState: ChainState, formData: FormData) {
+    // Validate form fields using Zod
+    const validatedFields = CreateChain.safeParse({
+        name: formData.get('name'),
+    });
+
+    // If form validation fails, return errors early. Otherwise, continue.
+    if (!validatedFields.success) {
+        return {
+            errors: validatedFields.error.flatten().fieldErrors,
+            message: 'Missing fields. Failed to Create Chain.'
+        };
+    }
+
+    // Prepare data for insertion into the database
+    const { name } = validatedFields.data;
+
+    try {
+        await sql`
+            INSERT INTO chains (name)
+            VALUES (${name})
+        `;
+    } catch (error) {
+        return {
+            message: `Database Error: Failed to Create Chain. ${error}`,
+        };
+    }
+
+    revalidatePath('/dashboard/chains');
+    redirect('/dashboard/chains');
+}
+
+export async function updateChain(id: string, prevState: ChainState, formData: FormData) {
+    // Validate form fields using Zod
+    const validatedFields = CreateChain.safeParse({
+        name: formData.get('name'),
+    });
+
+    // If form validation fails, return errors early. Otherwise, continue.
+    if (!validatedFields.success) {
+        return {
+            errors: validatedFields.error.flatten().fieldErrors,
+            message: 'Missing fields. Failed to Update Chain.'
+        };
+    }
+
+    // Prepare data for insertion into the database
+    const { name } = validatedFields.data;
+
+    try {
+        await sql`
+            UPDATE chains
+            SET name = ${name}
+            WHERE id = ${id}
+        `;
+    } catch (error) {
+        return {
+            message: `Database Error: Failed to Update Chain. ${error}`,
+        };
+    }
+
+    revalidatePath('/dashboard/chains');
+    redirect('/dashboard/chains');
+}
+
+export async function deleteChain(id: string) {
+    try {
+        await sql`DELETE FROM chains WHERE id = ${id}`;
+    } catch (error) {
+        return {
+            message: `Database Error: Failed to Delete Chain. ${error}`,
+        };
+    }
+    revalidatePath('/dashboard/chains');
 }

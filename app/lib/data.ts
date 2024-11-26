@@ -1,5 +1,5 @@
 import { sql } from "@vercel/postgres";
-import { City } from "./definitions";
+import { City, Chain } from "./definitions";
 
 export function fetchAllInvoices() {
     const invoices = [
@@ -112,5 +112,75 @@ export async function fetchCityById(id: string) {
     } catch (error) {
         console.error('Database Error:', error);
         throw new Error('Failed to fetch city.');
+    }
+}
+
+export async function fetchFilteredChains(
+    query: string,
+    currentPage: number,
+) {
+    const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+    
+    try {
+        const chains = await sql<Chain>`
+            SELECT
+                chains.id,
+                chains.name
+            FROM
+                chains
+            WHERE
+                chains.name ILIKE ${`%${query}%`}
+            ORDER BY chains.name ASC
+            LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+        `;
+
+        return chains.rows;
+    } catch (error) {
+        console.error('Database Error:', error);
+        throw new Error('Failed to fetch chains.');
+    }
+}
+
+export async function fetchChainsPages(query: string) {
+    try {
+        const count = await sql`
+            SELECT
+                COUNT(*)
+            FROM
+                chains
+            WHERE
+                chains.name ILIKE ${`%${query}%`}
+        `;
+
+        const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
+        return totalPages;
+    } catch (error) {
+        console.error('Database Error:', error);
+        throw new Error('Failed to fetch total number of chains.');
+    }
+}
+
+export async function fetchChainById(id: string) {
+    try {
+        const data = await sql<Chain>`
+            SELECT
+                chains.id,
+                chains.name
+            FROM
+                chains
+            WHERE
+                chains.id = ${id}
+            ORDER BY
+                chains.name ASC;
+        `;
+
+        const chain = data.rows.map((chain) => ({
+            ...chain,
+        }));
+
+        return chain[0];
+    } catch (error) {
+        console.error('Database Error:', error);
+        throw new Error('Failed to fetch chain.');
     }
 }
