@@ -1,8 +1,9 @@
 import { lusitana } from "@/app/ui/fonts";
-// import { fetchCities, fetchCitiesPages } from "@/app/lib/data";
+import { fetchCitiesPages } from "@/app/lib/data";
 import Search from "@/app/ui/search";
 import { CreateCity } from "@/app/ui/cities/buttons/create";
 import CitiesTable from "@/app/ui/cities/table";
+import Pagination from "@/app/ui/pagination";
 
 export default async function Page(props: {
     searchParams?: Promise<{
@@ -14,7 +15,7 @@ export default async function Page(props: {
     const query = searchParams?.query || '';
     const currentPage = Number(searchParams?.page) || 1;
 
-    // const totalPages = fetchCitiesPages(query);
+    const totalPages = await fetchCitiesPages(query);
 
     // const cities = fetchCities();
 
@@ -28,6 +29,9 @@ export default async function Page(props: {
                 <CreateCity />
             </div>
             <CitiesTable query={query} currentPage={currentPage} />
+            <div className="mt-5 flex w-full justify-center">
+                <Pagination totalPages={totalPages} />
+            </div>
         </div>
     );
 }
