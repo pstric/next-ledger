@@ -12,5 +12,5 @@ export function DeleteCity({ id }: { id: string }) {
         </button>
       </form>
     );
-  }
+}
   
