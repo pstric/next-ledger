@@ -1,20 +1,19 @@
 'use client';
 
-import { CityState, updateCity } from "@/app/lib/actions";
-import { City } from "@/app/lib/definitions";
+import { CityState, createCity } from "@/app/lib/actions";
 import Link from "next/link";
 import { useActionState } from "react";
 import { Button } from "@/app/ui/button";
 import { EnvelopeIcon, HomeIcon } from "@heroicons/react/24/outline";
 
-export default function EditCityForm({ city, }: { city: City; }) {
+export default function CreateCityForm(/* { city, }: { city: City; } */) {
     const initialState: CityState = { message: null, errors: {} };
-    const updateCityWithId = updateCity.bind(null, city.id);
-    const [state, formAction] = useActionState(updateCityWithId, initialState);
+    const createCityWithId = createCity.bind(null/* , city.id */);
+    const [state, formAction] = useActionState(createCityWithId, initialState);
   
       return (
         <form action={formAction} aria-describedby="form-error">
-            <input type="hidden" name="id" value={city.id} />
+            {/* <input type="hidden" name="id" value={city.id} /> */}
             <div className="rounded-md bg-gray-50 p-4 md:p-6">
                 {/* Zip */}
                 <div className="mb-4">
@@ -27,8 +26,8 @@ export default function EditCityForm({ city, }: { city: City; }) {
                                 id="zip"
                                 name="zip"
                                 type="string"
-                                defaultValue={city.zip}
-                                placeholder="Enter Zip Code"
+                                defaultValue=""
+                                placeholder="Enter Zip Code (4 digits)"
                                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                                 aria-describedby="zip-error"
                             />
@@ -57,7 +56,7 @@ export default function EditCityForm({ city, }: { city: City; }) {
                                 id="name"
                                 name="name"
                                 type="string"
-                                defaultValue={city.name}
+                                defaultValue=""
                                 placeholder="Enter City Name"
                                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                                 aria-describedby="name-error"
@@ -90,7 +89,7 @@ export default function EditCityForm({ city, }: { city: City; }) {
                 >
                     Cancel
                 </Link>
-                <Button type="submit">Edit City</Button>
+                <Button type="submit">Create City</Button>
             </div>
         </form>
     );
