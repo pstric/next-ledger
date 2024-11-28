@@ -7,8 +7,15 @@ export type Invoice = {
 export type Store = {
     id: string;
     chain_id: string;
-    address: string;
     city_id: string;
+    address: string;
+};
+
+export type StoreTable = {
+    id: string;
+    chain: string;
+    city: string;
+    address: string;
 };
 
 export type Chain = {

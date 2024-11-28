@@ -193,3 +193,101 @@ export async function deleteChain(id: string) {
     }
     revalidatePath('/dashboard/chains');
 }
+
+const StoreFormSchema = z.object({
+    id: z.string(),
+    chain_id: z.string(),
+    city_id: z.string(),
+    address: z.string(),
+});
+
+const CreateStore = StoreFormSchema.omit({ id: true, });
+
+export type StoreState = {
+    errors?: {
+        chain_id?: string[];
+        city_id?: string[];
+        address?: string[];
+    };
+    message?: string | null;
+};
+
+export async function createStore(prevState: StoreState, formData: FormData) {
+    // Validate form fields using Zod
+    const validatedFields = CreateStore.safeParse({
+        chain_id: formData.get('chain_id'),
+        city_id: formData.get('city_id'),
+        address: formData.get('address'),
+    });
+
+    // If form validation fails, return errors early. Otherwise, continue.
+    if (!validatedFields.success) {
+        return {
+            errors: validatedFields.error.flatten().fieldErrors,
+            message: 'Missing fields. Failed to Create Store.'
+        };
+    }
+
+    // Prepare data for insertion into the database
+    const { chain_id, city_id, address } = validatedFields.data;
+
+    try {
+        await sql`
+            INSERT INTO chains (chain_id, city_id, address)
+            VALUES (${chain_id}, ${city_id}, ${address})
+        `;
+    } catch (error) {
+        return {
+            message: `Database Error: Failed to Create Store. ${error}`,
+        };
+    }
+
+    revalidatePath('/dashboard/stores');
+    redirect('/dashboard/stores');
+}
+
+export async function updateStore(id: string, prevState: StoreState, formData: FormData) {
+    // Validate form fields using Zod
+    const validatedFields = CreateStore.safeParse({
+        chain_id: formData.get('chain_id'),
+        city_id: formData.get('city_id'),
+        address: formData.get('address'),
+    });
+
+    // If form validation fails, return errors early. Otherwise, continue.
+    if (!validatedFields.success) {
+        return {
+            errors: validatedFields.error.flatten().fieldErrors,
+            message: 'Missing fields. Failed to Update Store.'
+        };
+    }
+
+    // Prepare data for insertion into the database
+    const { chain_id, city_id, address } = validatedFields.data;
+
+    try {
+        await sql`
+            UPDATE stores
+            SET chain_id = ${chain_id}, city_id = ${city_id}, address = ${address}
+            WHERE id = ${id}
+        `;
+    } catch (error) {
+        return {
+            message: `Database Error: Failed to Update Store. ${error}`,
+        };
+    }
+
+    revalidatePath('/dashboard/stores');
+    redirect('/dashboard/stores');
+}
+
+export async function deleteStore(id: string) {
+    try {
+        await sql`DELETE FROM stores WHERE id = ${id}`;
+    } catch (error) {
+        return {
+            message: `Database Error: Failed to Delete Store. ${error}`,
+        };
+    }
+    revalidatePath('/dashboard/stores');
+}
