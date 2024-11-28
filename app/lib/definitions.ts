@@ -4,6 +4,21 @@ export type Invoice = {
     date: string;
 };
 
+export type Item = {
+    id: string;
+    invoice_id: string;
+    category_id: string;
+    name: string;
+    count: number;
+    amount: number;
+    discount: number;
+};
+
+export type ItemCategory = {
+    id: string;
+    name: string;
+};
+
 export type Store = {
     id: string;
     chain_id: string;

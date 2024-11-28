@@ -45,4 +45,15 @@
 //     },
 // ];
 
-// export { cities, chains, stores };
+// const itemCategories = [
+//     {
+//         id: '385bb54a-312d-4dda-9db5-05cd60ab2482',
+//         name: 'Bager',
+//     },
+//     {
+//         id: '9fef9c2b-5ad4-4fe6-9c5f-cc79b37e971e',
+//         name: 'Frugt & grønt',
+//     },
+// ];
+
+// export { /* cities, chains, stores, itemCategories */ };

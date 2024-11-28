@@ -17,6 +17,7 @@ const links = [
     { name: 'Stores', href: '/dashboard/stores', icon: BuildingStorefrontIcon },
     { name: 'Chains', href: '/dashboard/chains', icon: LinkIcon },
     { name: 'Cities', href: '/dashboard/cities', icon: BuildingLibraryIcon },
+    { name: 'Item Categories', href: '/dashboard/itemCategories', icon: LinkIcon },
 ];
 
 export default function NavLinks() {

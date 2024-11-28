@@ -1,7 +1,7 @@
 // import bcrypt from 'bcrypt';
 // import { db } from '@vercel/postgres';
 // import { invoices, customers, revenue, users } from '../lib/placeholder-data';
-// import {/* cities, chains, */stores } from '../lib/placeholder-data';
+// import {/* cities, chains, stores, itemCategories*/ } from '../lib/placeholder-data';
 
 // const client = await db.connect();
 
@@ -175,21 +175,45 @@
 //   return insertedStores;
 // }
 
+// async function seedItemCategories() {
+//   await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+
+//   await client.sql`
+//     CREATE TABLE IF NOT EXISTS item_categories (
+//       id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+//       name VARCHAR(255) NOT NULL
+//     );
+//   `;
+
+//   const insertedItemCategories = await Promise.all(
+//     itemCategories.map(
+//       (category) => client.sql`
+//         INSERT INTO item_categories (id, name)
+//         VALUES (${category.id}, ${category.name})
+//         ON CONFLICT (id) DO NOTHING;
+//       `,
+//     ),
+//   );
+
+//   return insertedItemCategories;
+// }
+
 export async function GET() {
   return Response.json({
     message:
       'Uncomment this file and remove this line. You can delete this file when you are finished.',
   });
-//   try {
-//     await client.sql`BEGIN`;
-//     await seedCities();
-//     await seedChains();
-//     await seedStores();
-//     await client.sql`COMMIT`;
+  // try {
+  //   await client.sql`BEGIN`;
+  //   await seedCities();
+  //   await seedChains();
+  //   await seedStores();
+  //   await seedItemCategories();
+  //   await client.sql`COMMIT`;
 
-//     return Response.json({ message: 'Database seeded successfully' });
-//   } catch (error) {
-//     await client.sql`ROLLBACK`;
-//     return Response.json({ error }, { status: 500 });
-//   }
+  //   return Response.json({ message: 'Database seeded successfully' });
+  // } catch (error) {
+  //   await client.sql`ROLLBACK`;
+  //   return Response.json({ error }, { status: 500 });
+  // }
 }

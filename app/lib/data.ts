@@ -1,5 +1,5 @@
 import { sql } from "@vercel/postgres";
-import { City, Chain, Store, StoreTable } from "./definitions";
+import { City, Chain, Store, StoreTable, ItemCategory } from "./definitions";
 
 export function fetchAllInvoices() {
     const invoices = [
@@ -310,6 +310,91 @@ export async function fetchAllStores() {
     } catch (error) {
         console.error('Database Error:', error);
         throw new Error('Failed to fetch stores.');
+    }
+}
+
+export async function fetchFilteredItemCategories(
+    query: string,
+    currentPage: number,
+) {
+    const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+    
+    try {
+        const itemCategories = await sql<ItemCategory>`
+            SELECT
+                item_categories.id,
+                item_categories.name
+            FROM
+                item_categories
+            WHERE
+                item_categories.name ILIKE ${`%${query}%`}
+            ORDER BY item_categories.name ASC
+            LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+        `;
+
+        return itemCategories.rows;
+    } catch (error) {
+        console.error('Database Error:', error);
+        throw new Error('Failed to fetch item categories.');
+    }
+}
+
+export async function fetchItemCategoriesPages(query: string) {
+    try {
+        const count = await sql`
+            SELECT
+                COUNT(*)
+            FROM
+                item_categories
+            WHERE
+                item_categories.name ILIKE ${`%${query}%`}
+        `;
+
+        const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
+        return totalPages;
+    } catch (error) {
+        console.error('Database Error:', error);
+        throw new Error('Failed to fetch total number of item categories.');
+    }
+}
+
+export async function fetchItemCategoryById(id: string) {
+    try {
+        const data = await sql<ItemCategory>`
+            SELECT
+                item_categories.id,
+                item_categories.name
+            FROM
+                item_categories
+            WHERE
+                item_categories.id = ${id}
+            ORDER BY
+                item_categories.name ASC;
+        `;
+
+        const itemCategory = data.rows.map((itemCategory) => ({
+            ...itemCategory,
+        }));
+
+        return itemCategory[0];
+    } catch (error) {
+        console.error('Database Error:', error);
+        throw new Error('Failed to fetch item categories.');
+    }
+}
+
+export async function fetchAllItemCategories() {
+    try {
+        const itemCategories = await sql<ItemCategory>`
+            SELECT *
+            FROM item_categories
+            ORDER BY item_categories.name ASC
+        `;
+
+        return itemCategories.rows;
+    } catch (error) {
+        console.error('Database Error:', error);
+        throw new Error('Failed to fetch item categories.');
     }
 }
 

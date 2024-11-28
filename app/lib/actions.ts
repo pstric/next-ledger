@@ -291,3 +291,94 @@ export async function deleteStore(id: string) {
     }
     revalidatePath('/dashboard/stores');
 }
+
+const ItemCategoryFormSchema = z.object({
+    id: z.string(),
+    name: z.string(),
+});
+
+const CreateItemCategory = ItemCategoryFormSchema.omit({ id: true, });
+
+export type ItemCategoryState = {
+    errors?: {
+        name?: string[];
+    };
+    message?: string | null;
+};
+
+export async function createItemCategory(prevState: ItemCategoryState, formData: FormData) {
+    // Validate form fields using Zod
+    const validatedFields = CreateItemCategory.safeParse({
+        name: formData.get('name'),
+    });
+
+    // If form validation fails, return errors early. Otherwise, continue.
+    if (!validatedFields.success) {
+        return {
+            errors: validatedFields.error.flatten().fieldErrors,
+            message: 'Missing fields. Failed to Create Item Category.'
+        };
+    }
+
+    // Prepare data for insertion into the database
+    const { name } = validatedFields.data;
+
+    try {
+        await sql`
+            INSERT INTO item_categories (name)
+            VALUES (${name})
+        `;
+    } catch (error) {
+        return {
+            message: `Database Error: Failed to Create Item Category. ${error}`,
+        };
+    }
+
+    revalidatePath('/dashboard/itemCategories');
+    redirect('/dashboard/itemCategories');
+}
+
+export async function updateItemCategory(id: string, prevState: ItemCategoryState, formData: FormData) {
+    // Validate form fields using Zod
+    const validatedFields = CreateChain.safeParse({
+        name: formData.get('name'),
+    });
+
+    // If form validation fails, return errors early. Otherwise, continue.
+    if (!validatedFields.success) {
+        return {
+            errors: validatedFields.error.flatten().fieldErrors,
+            message: 'Missing fields. Failed to Update Item Category.'
+        };
+    }
+
+    // Prepare data for insertion into the database
+    const { name } = validatedFields.data;
+
+    try {
+        await sql`
+            UPDATE item_categories
+            SET name = ${name}
+            WHERE id = ${id}
+        `;
+    } catch (error) {
+        return {
+            message: `Database Error: Failed to Update Item Category. ${error}`,
+        };
+    }
+
+    revalidatePath('/dashboard/itemCategories');
+    redirect('/dashboard/itemCategories');
+}
+
+export async function deleteItemCategory(id: string) {
+    try {
+        await sql`DELETE FROM item_categories WHERE id = ${id}`;
+    } catch (error) {
+        return {
+            message: `Database Error: Failed to Delete Item Category. ${error}`,
+        };
+    }
+    revalidatePath('/dashboard/itemCategories');
+}
+
