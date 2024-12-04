@@ -1,7 +1,7 @@
 // import bcrypt from 'bcrypt';
 // import { db } from '@vercel/postgres';
 // import { invoices, customers, revenue, users } from '../lib/placeholder-data';
-// import {/* cities, chains, stores, itemCategories*/ } from '../lib/placeholder-data';
+// import {/* cities, chains, stores, itemCategories, invoices */ } from '../lib/placeholder-data';
 
 // const client = await db.connect();
 
@@ -198,6 +198,33 @@
 //   return insertedItemCategories;
 // }
 
+// async function seedInvoices() {
+//   await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+
+//   await client.sql`
+//     DROP TABLE IF EXISTS invoices;
+//     CREATE TABLE IF NOT EXISTS invoices (
+//       id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+//       store_id UUID NOT NULL,
+//       date VARCHAR(255) NOT NULL
+//     );
+//   `;
+
+//   console.log(invoices[0]);
+
+//   const insertedInvoices = await Promise.all(
+//     invoices.map(
+//       (invoice) => client.sql`
+//         INSERT INTO invoices (id, store_id, date)
+//         VALUES (${invoice.id}, ${invoice.store_id}, ${invoice.date})
+//         ON CONFLICT (id) DO NOTHING;
+//       `,
+//     ),
+//   );
+
+//   return insertedInvoices;
+// }
+
 export async function GET() {
   return Response.json({
     message:
@@ -209,6 +236,7 @@ export async function GET() {
   //   await seedChains();
   //   await seedStores();
   //   await seedItemCategories();
+  //   await seedInvoices();
   //   await client.sql`COMMIT`;
 
   //   return Response.json({ message: 'Database seeded successfully' });

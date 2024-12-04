@@ -1,4 +1,4 @@
-// import { fetchFilteredChains, fetchFilteredCities } from "./data";
+import { /* fetchFilteredChains, fetchFilteredCities, */ fetchFilteredItemCategories/* , fetchFilteredStores */ } from "./data";
 
 // const cities = [
 //     {
@@ -56,4 +56,47 @@
 //     },
 // ];
 
-// export { /* cities, chains, stores, itemCategories */ };
+// export type Item = {
+//     id: string;
+//     invoice_id: string;
+//     category_id: string;
+//     name: string;
+//     count: number;
+//     amount: number;
+//     discount: number;
+// };
+
+const itemCategories = await fetchFilteredItemCategories("", 1);
+
+const items = [
+    {
+        id: '6888dc3b-292b-4b31-812c-18274ab2d3ff',
+        invoice_id: '',
+        category_id: itemCategories[0].id,
+        name: 'Formbrød med birkes',
+        count: 1,
+        amount: 20.00,
+        discount: 0,
+    },
+    {
+        id: '614f39ab-23a7-40ea-819c-e345e12afed4',
+        invoice_id: '',
+        category_id: itemCategories[1].id,
+        name: 'Ananas, family pack',
+        count: 1,
+        amount: 18.95,
+        discount: 0,
+    },
+];
+
+// const stores = await fetchFilteredStores("", 1);
+
+// const invoices = [
+//     {
+//         id: '7b0ed018-1a6d-43b5-8ebc-a79298e2da48',
+//         store_id: stores[0].id,
+//         date: '2024-12-04',
+//     },
+// ];
+
+export { /* cities, chains, stores, itemCategories, */items/* , invoices */ };
