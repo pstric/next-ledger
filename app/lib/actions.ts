@@ -233,7 +233,7 @@ export async function createStore(prevState: StoreState, formData: FormData) {
 
     try {
         await sql`
-            INSERT INTO chains (chain_id, city_id, address)
+            INSERT INTO stores (chain_id, city_id, address)
             VALUES (${chain_id}, ${city_id}, ${address})
         `;
     } catch (error) {
@@ -290,6 +290,100 @@ export async function deleteStore(id: string) {
         };
     }
     revalidatePath('/dashboard/stores');
+}
+
+const InvoiceFormSchema = z.object({
+    id: z.string(),
+    store_id: z.string(),
+    date: z.string(),
+});
+
+const CreateInvoice = InvoiceFormSchema.omit({ id: true, });
+
+export type InvoiceState = {
+    errors?: {
+        store_id?: string[];
+        date?: string[];
+    };
+    message?: string | null;
+};
+
+export async function createInvoice(prevState: InvoiceState, formData: FormData) {
+    // Validate form fields using Zod
+    const validatedFields = CreateInvoice.safeParse({
+        store_id: formData.get('store_id'),
+        date: formData.get('date'),
+    });
+
+    // If form validation fails, return errors early. Otherwise, continue.
+    if (!validatedFields.success) {
+        return {
+            errors: validatedFields.error.flatten().fieldErrors,
+            message: 'Missing fields. Failed to Create Invoice.'
+        };
+    }
+
+    // Prepare data for insertion into the database
+    const { store_id, date } = validatedFields.data;
+
+    try {
+        await sql`
+            INSERT INTO invoices (store_id, date)
+            VALUES (${store_id}, ${date})
+        `;
+    } catch (error) {
+        return {
+            message: `Database Error: Failed to Create Invoice. ${error}`,
+        };
+    }
+
+    revalidatePath('/dashboard/invoices');
+    redirect('/dashboard/invoices');
+}
+
+export async function updateInvoice(id: string, prevState: InvoiceState, formData: FormData) {
+    // Validate form fields using Zod
+    const validatedFields = CreateInvoice.safeParse({
+        store_id: formData.get('store_id'),
+        date: formData.get('date'),
+    });
+
+    // If form validation fails, return errors early. Otherwise, continue.
+    if (!validatedFields.success) {
+        return {
+            errors: validatedFields.error.flatten().fieldErrors,
+            message: 'Missing fields. Failed to Update Invoice.'
+        };
+    }
+
+    // Prepare data for insertion into the database
+    const { store_id, date } = validatedFields.data;
+
+    try {
+        await sql`
+            UPDATE invoices
+            SET store_id = ${store_id}, date = ${date}
+            WHERE id = ${id}
+        `;
+    } catch (error) {
+        return {
+            message: `Database Error: Failed to Update Invoice. ${error}`,
+        };
+    }
+
+    revalidatePath('/dashboard/invoices');
+    redirect('/dashboard/invoices');
+}
+
+export async function deleteInvoice(id: string) {
+    try {
+        await sql`DELETE FROM invoices WHERE id = ${id}`;
+    } catch (error) {
+        return {
+            message: `Database Error: Failed to Delete Invoice. ${error}`,
+        };
+    }
+    revalidatePath('/dashboard/invoices');
 }
 
 const ItemCategoryFormSchema = z.object({

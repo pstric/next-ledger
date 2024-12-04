@@ -4,6 +4,12 @@ export type Invoice = {
     date: string;
 };
 
+export type InvoiceTable = {
+    id: string;
+    chain: string;
+    date: string;
+};
+
 export type Item = {
     id: string;
     invoice_id: string;
