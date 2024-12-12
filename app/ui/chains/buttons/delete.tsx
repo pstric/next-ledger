@@ -1,7 +1,7 @@
 import { TrashIcon } from "@heroicons/react/24/outline";
 // import { deleteChain } from "@/app/lib/actions";
 
-export function DeleteChain({ id }: { id: string }) {
+export function DeleteChain(/* { id }: { id: string } */) {
     // const deleteChainWithId = deleteChain.bind(null, id);
   
     return (

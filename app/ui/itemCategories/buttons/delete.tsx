@@ -1,7 +1,7 @@
 import { TrashIcon } from "@heroicons/react/24/outline";
 // import { deleteItemCategory } from "@/app/lib/actions";
 
-export function DeleteItemCategory({ id }: { id: string }) {
+export function DeleteItemCategory(/* { id }: { id: string } */) {
     // const deleteItemCategoryWithId = deleteItemCategory.bind(null, id);
   
     return (

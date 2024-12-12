@@ -1,7 +1,7 @@
 import { TrashIcon } from "@heroicons/react/24/outline";
 // import { deleteCity } from "@/app/lib/actions";
 
-export function DeleteCity({ id }: { id: string }) {
+export function DeleteCity(/* { id }: { id: string } */) {
     // const deleteCityWithId = deleteCity.bind(null, id);
   
     return (
