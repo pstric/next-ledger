@@ -1,6 +1,6 @@
 import { fetchFilteredCities } from "@/app/lib/data";
 import EditCity from "./buttons/edit";
-import { DeleteCity } from "./buttons/delete";
+// import { DeleteCity } from "./buttons/delete";
 import ViewCity from "./buttons/view";
 
 export default async function CitiesTable({
@@ -40,7 +40,7 @@ export default async function CitiesTable({
                   <div className="flex justify-end gap-2">
                     <ViewCity id={city.id} />
                     <EditCity id={city.id} />
-                    <DeleteCity id={city.id} />
+                    {/* <DeleteCity id={city.id} /> */}
                   </div>
                 </div>
               </div>
@@ -78,7 +78,7 @@ export default async function CitiesTable({
                     <div className="flex justify-end gap-3">
                       <ViewCity id={city.id} />
                       <EditCity id={city.id} />
-                      <DeleteCity id={city.id} />
+                      {/* <DeleteCity id={city.id} /> */}
                     </div>
                   </td>
                 </tr>

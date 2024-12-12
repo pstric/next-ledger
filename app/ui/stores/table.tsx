@@ -1,6 +1,6 @@
 import { fetchFilteredStores } from "@/app/lib/data";
 import EditStore from "./buttons/edit";
-import { DeleteStore } from "./buttons/delete";
+// import { DeleteStore } from "./buttons/delete";
 import ViewStore from "./buttons/view";
 
 export default async function StoresTable({
@@ -45,7 +45,7 @@ export default async function StoresTable({
                   <div className="flex justify-end gap-2">
                     <ViewStore id={store.id} />
                     <EditStore id={store.id} />
-                    <DeleteStore id={store.id} />
+                    {/* <DeleteStore id={store.id} /> */}
                   </div>
                 </div>
               </div>
@@ -89,7 +89,7 @@ export default async function StoresTable({
                     <div className="flex justify-end gap-3">
                       <ViewStore id={store.id} />
                       <EditStore id={store.id} />
-                      <DeleteStore id={store.id} />
+                      {/* <DeleteStore id={store.id} /> */}
                     </div>
                   </td>
                 </tr>

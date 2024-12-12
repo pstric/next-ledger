@@ -1,5 +1,5 @@
 import { fetchFilteredChains } from "@/app/lib/data";
-import { DeleteChain } from "./buttons/delete";
+// import { DeleteChain } from "./buttons/delete";
 import ViewChain from "./buttons/view";
 import EditChain from "./buttons/edit";
 
@@ -40,7 +40,7 @@ export default async function ChainsTable({
                   <div className="flex justify-end gap-2">
                     <ViewChain id={chain.id} />
                     <EditChain id={chain.id} />
-                    <DeleteChain id={chain.id} />
+                    {/* <DeleteChain id={chain.id} /> */}
                   </div>
                 </div>
               </div>
@@ -72,7 +72,7 @@ export default async function ChainsTable({
                     <div className="flex justify-end gap-3">
                       <ViewChain id={chain.id} />
                       <EditChain id={chain.id} />
-                      <DeleteChain id={chain.id} />
+                      {/* <DeleteChain id={chain.id} /> */}
                     </div>
                   </td>
                 </tr>

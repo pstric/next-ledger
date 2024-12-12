@@ -1,6 +1,6 @@
 import { fetchFilteredInvoices } from "@/app/lib/data";
 import EditInvoice from "./buttons/edit";
-import { DeleteInvoice } from "./buttons/delete";
+// import { DeleteInvoice } from "./buttons/delete";
 import ViewInvoice from "./buttons/view";
 
 export default async function InvoicesTable({
@@ -40,7 +40,7 @@ export default async function InvoicesTable({
                   <div className="flex justify-end gap-2">
                     <ViewInvoice id={invoice.id} />
                     <EditInvoice id={invoice.id} />
-                    <DeleteInvoice id={invoice.id} />
+                    {/* <DeleteInvoice id={invoice.id} /> */}
                   </div>
                 </div>
               </div>
@@ -78,7 +78,7 @@ export default async function InvoicesTable({
                     <div className="flex justify-end gap-3">
                       <ViewInvoice id={invoice.id} />
                       <EditInvoice id={invoice.id} />
-                      <DeleteInvoice id={invoice.id} />
+                      {/* <DeleteInvoice id={invoice.id} /> */}
                     </div>
                   </td>
                 </tr>

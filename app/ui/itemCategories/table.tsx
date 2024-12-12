@@ -1,5 +1,5 @@
 import { fetchFilteredItemCategories } from "@/app/lib/data";
-import { DeleteItemCategory } from "./buttons/delete";
+// import { DeleteItemCategory } from "./buttons/delete";
 import ViewItemCategory from "./buttons/view";
 import EditItemCategory from "./buttons/edit";
 
@@ -40,7 +40,7 @@ export default async function ItemCategoriesTable({
                   <div className="flex justify-end gap-2">
                     <ViewItemCategory id={itemCategory.id} />
                     <EditItemCategory id={itemCategory.id} />
-                    <DeleteItemCategory id={itemCategory.id} />
+                    {/* <DeleteItemCategory id={itemCategory.id} /> */}
                   </div>
                 </div>
               </div>
@@ -72,7 +72,7 @@ export default async function ItemCategoriesTable({
                     <div className="flex justify-end gap-3">
                       <ViewItemCategory id={itemCategory.id} />
                       <EditItemCategory id={itemCategory.id} />
-                      <DeleteItemCategory id={itemCategory.id} />
+                      {/* <DeleteItemCategory id={itemCategory.id} /> */}
                     </div>
                   </td>
                 </tr>
